@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Product">
+	<head>
+		<title>AppGrid</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		
+		<!-- OpenGraph (used by most social networks) -->
+		<meta property="og:site_name" content="AppGrid" />
+		<meta property="og:title" content="AppGrid" />
+		<meta property="og:type" content="product" />
+		
+		<!-- Google+ -->
+		<meta itemprop="name" content="AppGrid" />
+		<meta itemprop="description" content="A grid system for HTML5 desktop applications." />
+		
+		<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/appgrid.css" />
+		<style type="text/css">
+			*, *:before, *:after {
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				font-family: Arial, sans-serif;
+			}
+			
+			/* Header */
+			
+			.header {
+				height: 96px !important;
+				
+				background-color: #c0c0c0;
+				border-bottom: 1px solid black;
+				text-align: center;
+			}
+			
+			.fitty {
+				height: 50%;
+				overflow: hidden;
+			}
+			
+			.logo {
+				font-size: 36px;
+				line-height: 48px;
+				color: #404040;
+				text-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+			}
+			
+			ul.nav {
+				list-style: none;
+				display: block;
+			}
+			
+			ul.nav li {
+				display: inline-block;
+				margin-right: 8px;
+			}
+			
+			ul.nav li:last-child {
+				margin-right: 0;
+			}
+			
+			ul.nav li button {
+				background-color: #808080;
+				color: #404040;
+				
+				font-size: 18px;
+				width: 36px;
+				height: 36px;
+				line-height: 36px;
+				margin: 4px;
+				
+				cursor: pointer;
+				outline: 0;
+				border: 0;
+				border-radius: 100%;
+				box-shadow: inset 0 -4px 4px rgba(0, 0, 0, 0.2);
+			}
+			
+			ul.nav li button:hover {
+				background-color: #a0a0a0;
+			}
+			
+			ul.nav li button:active {
+				box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.5);
+			}
+			
+			/* Side Panels */
+			.tools, .layers {
+				background-color: #c0c0c0;
+			}
+			
+			.box .title {
+				width: 100%;
+				height: 20px;
+				
+				background-color: #404040;
+				border-bottom: 1px solid black;
+				padding: 0 4px;
+				
+				color: #ffffff;
+				font-size: 12px;
+				font-weight: bold;
+				text-align: left;
+				line-height: 20px;
+			}
+			
+			/* Tools */
+			
+			.box.tools .body ul {
+				text-align: justify;
+			}
+			
+			.box.tools .body ul li {
+				display: inline-block;
+				margin: 0;
+			}
+			.box.tools .body ul li.last {
+				display: inline-block;
+				width: 50%;
+			}
+			
+			button.tool {
+				width: 32px;
+				height: 32px;
+				margin: 4px;
+				
+				font-size: 16px;
+			}
+			
+			/* Layers */
+			
+			.box.layers .body .container {
+				position: absolute;
+				left: 0;
+				top: 20px;
+				right: 0;
+				bottom: 0;
+			}
+			
+			.box.layers .layer {
+				display: block;
+				
+				position: relative;
+				min-width: 100%;
+				min-height: 80px;
+			}
+			
+			.box.layers .layer .thumb {
+				position: absolute;
+				left: 0;
+				top: 0;
+				
+				width: 64px;
+				height: 64px;
+				margin: 8px;
+				
+				background-image: url("../../img/transparent.png");
+				background-repeat: repeat;
+				background-position: left top;
+				border: 1px solid black;
+			}
+			
+			.box.layers .layer .info {
+				position: absolute;
+				left: 80px;
+				top: 8px;
+				right: 8px;
+				bottom: 8px;
+				
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+			
+			/* Workspace */
+			
+			.content {
+				/* Making room for the header */
+				top: 96px !important;
+			}
+			
+			.workspace {
+				background-color: #606060;
+				border-left: 1px solid black;
+				border-right: 1px solid black;
+			}
+			
+			.canvas {
+				background-image: url("../../img/transparent.png");
+				background-repeat: repeat;
+				background-position: left top;
+				border: 1px solid black;
+				
+				width: 512px;
+				height: 512px;
+				
+				margin: auto;
+				position: absolute;
+				left: 0; right: 0;
+				top: 0; bottom: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="grid">
+			<div class="row size1 offset0 header">
+				<div class="fitty">
+					<span class="logo">AppShop</span>
+				</div>
+				<div class="fitty">
+					<ul class="nav">
+						<li>
+							<button><i class="fa fa-camera"></i></button>
+						</li>
+						<li>
+							<button><i class="fa fa-paint-brush"></i></button>
+						</li>
+						<li>
+							<button><i class="fa fa-cloud-upload"></i></button>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row size 11 offset1 content fill">
+				<div class="column size2 offset0 tools">
+					<div class="box tools">
+						<div class="title">
+							&#187; Tools
+						</div>
+						<div class="body">
+							<ul>
+								<li>
+									<button class="tool">
+										<i class="fa fa-crop"></i>
+									</button>
+								</li>
+								<li>
+									<button class="tool">
+										<i class="fa fa-crosshairs"></i>
+									</button>
+								</li>
+								<li>
+									<button class="tool">
+										<i class="fa fa-rotate-right"></i>
+									</button>
+								</li>
+								<li>
+									<button class="tool">
+										<i class="fa fa-paint-brush"></i>
+									</button>
+								</li>
+								<li>
+									<button class="tool">
+										<i class="fa fa-eraser"></i>
+									</button>
+								</li>
+								<li>
+									<button class="tool">
+										<i class="fa fa-eyedropper"></i>
+									</button>
+								</li>
+								<li class="last">
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="column size8 offset2 workspace scrollY scrollX">
+					<div class="canvas"></div>
+				</div>
+				<div class="column size2 offset10 layers">
+					<div class="box layers">
+						<div class="title">
+							&#187; Layers
+						</div>
+						<div class="body">
+							<div class="container scrollY">
+								<div class="layer">
+									<div class="thumb">
+										
+									</div>
+									<div class="info">
+										Layer N
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
