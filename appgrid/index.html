@@ -89,7 +89,7 @@
 				for(var j = 0; j < string.length; j ++) {
 					var span = document.createElement("span");
 					var contents = document.createTextNode(string[j]);
-					var x = (string.length * 64 / 2) + j * 64;
+					var x = 64 + (string.length * 64 / 2) + j * 64;
 					span.style.display = "inline-block";
 					span.style.position = "absolute";
 					span.style.left = x + "px";
