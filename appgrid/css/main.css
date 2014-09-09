@@ -1,45 +1,69 @@
-body {
-	background-color: #126B6C;
-}
+@import url("http://fonts.googleapis.com/css?family=Source+Sans+Pro|Indie+Flower");
 
-.header {
-	text-align: center;
+body {
+	background-color: #e8e8e8;
+	background-image: url("../img/grid.png");
+	background-position: center top;
+	
+	font-size: 16px;
+	font-size: 20px;
+	font-family: "Source Sans Pro";
 }
 
 .header h1 {
+	position: relative;
+	display: block;
+	font-family: "Indie Flower";
 	font-size: 32px;
 	line-height: 64px;
-	letter-spacing: 24px;
+	height: 62px;
+	width: 100%;
+	padding: 0 16px;
+	color: #1b5a8c;
 }
 
-.glow {
-	color: #7BE8E9;
-	text-shadow: 0 0 8px rgba(255,255,255,0.5);
-}
-
-.about .container {
-	margin: 8px;
-	background-color: #031415;
-	color: #ffffff;
+.block {
+	background-color: white;
+	border: 2px solid #1b5a8c;
+	border-radius: 3px;
+	line-height: 32px;
 	padding: 8px;
+}
+
+button.download {
+	line-height: 48px;
+	width: 100%;
+	border: 0;
+	background: #1b5a8c;
+	color: white;
 	border-radius: 4px;
-	border: 1px solid #7BE8E9;
-	box-shadow: 0 0 8px rgba(255,255,255,0.5);
+	font-size: 24px;
+}
+
+a {
+	text-decoration: underline;
+	color: #008fff;
+}
+
+a:hover {
+	color: #40acff;
+}
+
+pre {
+	margin: 8px;
+	padding: 8px;
+	font-size: 16px;
+	background: black;
+	color: white;
 }
 
 ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	display: block;
+	list-style-type: none;
+    padding: 0;
+    margin-left: 16px;
 }
 
 ul li {
-	margin: 0;
-	padding: 0;
-	padding-left: 32px;
-}
-
-ul li:before {
-	content: "- ";
-	padding-right: 16px;
+	padding-left: 16px;
 }

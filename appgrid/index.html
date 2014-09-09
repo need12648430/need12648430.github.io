@@ -19,34 +19,86 @@
 		<link rel="icon" type="image/png" href="icon.png" />
 		<link rel="canonical" href="{FullURL}" />
 		
-		<link rel="stylesheet" type="text/css" href="css/typography.css" />
 		<link rel="stylesheet" type="text/css" href="css/grid.css" />
 		<link rel="stylesheet" type="text/css" href="css/main.css" />
+		<link rel="stylesheet" href="css/prism.css" />
 		<link rel="stylesheet" type="text/css" href="css/mobile.css" />
+		
+		<script src="js/prism.js"></script>
 	</head>
 	<body>
 		<div class="row header">
 			<div class="twelve column">
-				<h1 class="glow">AppGrid</h1>
+				<h1 class="spread">AppGrid</h1>
 			</div>
 		</div>
-		<div class="row about">
+		<div class="row block">
 			<div class="twelve column">
-				<div class="container">
-					<p>
-						ugly site will be pretty soon maybe
-					</p>
-					<p>
-						examples: <br />
-						<ul>
-							<li><a href="examples/appshop">AppShop</a></li>
-						</ul>
-						<ul>
-							<li><a href="examples/appfiddle">AppFiddle</a></li>
-						</ul>
-					</p>
-				</div>
+				<a href="css/appgrid.css" download="appgrid.css"><button class="download">Download</button></a>
+				<p style="font-size: 0.75em;text-align: center;">
+					Or <a href="http://jsfiddle.net/1xyt4rrb/9/">choose a grid size</a>.
+				</p>
+				<br />
+				<p>
+					AppGrid is a small (1.98KB), pure CSS boilerplate intended for use in desktop-style HTML5 apps. It's a convenient way to make use of both the horizontal <em>and</em> vertical space of a page - in the familiar fashion of a CSS grid system.
+				</p>
+				<br />
+				<p>
+					Coupled with something like <a href="https://github.com/rogerwang/node-webkit">node-webkit</a> it's a great first step to building desktop applications in HTML5. But nothing's stopping you from running it in-browser either, of course.
+				</p>
+				<br />
+				<p>
+					It's much easier to show than tell, so here are some samples:
+					<ul>
+						<li><a href="examples/basic">Basic Example</a> (demonstration)</li>
+						<li><a href="examples/appfiddle">AppFiddle</a> (jsfiddle layout in just a few lines, demonstrates nesting)</li>
+						<li><a href="examples/appshop">AppShop</a> (image editor layout, ugly but you get the jist)</li>
+					</ul>
+				</p>
 			</div>
 		</div>
+		<br />
+		<div class="row block">
+			<div class="twelve column">
+				The code looks a little something like this:
+<pre><code class="language-markup">&lt;div class="row size12 offset0"&gt;
+	&lt;div class="column size6 offset0"&gt;
+		column 1
+	&lt;/div&gt;
+	&lt;div class="column size6 offset6"&gt;
+		column 2
+	&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+		<br />
+		<div class="row small">
+			<p style="text-align: center;">
+				With &hearts;, <a href="https://github.com/need12648430">Jahn</a>. 
+			</p>
+		</div>
+		
+		<script type="text/javascript">
+			var spreadem = document.querySelectorAll(".spread");
+			
+			for(var i = 0; i < spreadem.length; ++ i) {
+				var string = spreadem[i].textContent.split('');
+				var width = spreadem[i].offsetWidth;
+				spreadem[i].textContent = "";
+				spreadem[i].style.position = "relative";
+				for(var j = 0; j < string.length; j ++) {
+					var span = document.createElement("span");
+					var contents = document.createTextNode(string[j]);
+					var x = (string.length * 64 / 2) + j * 64;
+					span.style.display = "inline-block";
+					span.style.position = "absolute";
+					span.style.left = x + "px";
+					span.style.width = "64px";
+					span.style.textAlign = "center";
+					span.appendChild(contents);
+					spreadem[i].appendChild(span);
+				}
+			}
+		</script>
 	</body>
 </html>
