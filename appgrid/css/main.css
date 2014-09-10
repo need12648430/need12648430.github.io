@@ -39,6 +39,10 @@ button.download {
 	border-radius: 4px;
 	font-size: 24px;
 }
+button.download:hover {
+	background: #2783cc;
+	cursor: pointer;
+}
 
 a {
 	text-decoration: underline;
