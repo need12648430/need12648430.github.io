@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>MetaView</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="metaview">MetaView</h1>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>MetaView is a tiny convenience library for working with JavaScript
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView">DataViews</a>.
+It provides stream-like functions for reading and writing binary data,
+similar to AS3’s ByteArray.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/*
+Copyright (c) 2017 Jahn Johansen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <h2 id="arraybuffer-transfer">ArrayBuffer.transfer</h2>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>A simple, tiny polyfill for
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/transfer">ArrayBuffer.transfer</a>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span> (!<span class="hljs-built_in">ArrayBuffer</span>.transfer)
+	<span class="hljs-built_in">ArrayBuffer</span>.transfer = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">oldBuffer, newLength</span>) </span>{
+		newLength = newLength || oldBuffer.byteLength;
+		<span class="hljs-keyword">var</span> newBuffer = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ArrayBuffer</span>(newLength);
+		<span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(newBuffer).set(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(oldBuffer));
+		<span class="hljs-keyword">return</span> newBuffer;
+	}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h2 id="textencoder-textdecoder">TextEncoder / TextDecoder</h2>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>A simple, tiny polyfill for
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Encoding_API">encoding APIs</a>,
+it only supports UTF-8.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">if</span> (!TextEncoder) {
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TextEncoder</span> (<span class="hljs-params">encoding</span>) </span>{}
+	TextEncoder.prototype.encode = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">buffer</span>) </span>{
+		buffer = <span class="hljs-built_in">unescape</span>(<span class="hljs-built_in">encodeURIComponent</span>(buffer));
+		<span class="hljs-keyword">var</span> ab = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ArrayBuffer</span>(buffer.length),
+			u8 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(ab);
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; buffer.length; i ++)
+			u8[i] = buffer.charCodeAt(i);
+		<span class="hljs-keyword">return</span> u8;
+	}
+	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">TextDecoder</span> (<span class="hljs-params"></span>) </span>{}
+	TextDecoder.prototype.decode = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">buffer</span>) </span>{
+		<span class="hljs-keyword">return</span> <span class="hljs-built_in">decodeURIComponent</span>(<span class="hljs-built_in">escape</span>(<span class="hljs-built_in">String</span>.fromCharCode.apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">Array</span>.from(buffer))));
+	}
+}
+
+<span class="hljs-keyword">var</span> MetaView = (<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h2 id="metaview">MetaView</h2>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>This is the MetaView class. It optionally takes an ArrayBuffer as its sole
+argument, which will be used to populate its internal buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MetaView</span> (<span class="hljs-params">from</span>) </span>{
+		<span class="hljs-keyword">if</span> (<span class="hljs-keyword">from</span>)
+			<span class="hljs-keyword">this</span>.contents = <span class="hljs-built_in">ArrayBuffer</span>.transfer(<span class="hljs-keyword">from</span>);
+		<span class="hljs-keyword">else</span>
+			<span class="hljs-keyword">this</span>.contents = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ArrayBuffer</span>(<span class="hljs-number">1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>It provides stream-like behaviour via a ‘cursor’ that gets updated with
+reads and writes.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">this</span>.cursor = <span class="hljs-number">0</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>And it can work with either big-endian or little-endian data. After creating
+an instance of MetaView, set <code>metaViewInstance.endianness</code> to either <code>MetaView.LE</code>
+for little-endian or <code>MetaView.BE</code> for big-endian.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">this</span>.endianness = MetaView.LE;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <h3 id="dynamic-methods">Dynamic methods</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>The vast majority of its methods are created dynamically on construction
+via function binds, but they follow the same general structure.</p>
+<p>Possible [TYPE] [BITS] combinations:</p>
+<pre><code>* Int
+    * <span class="hljs-number">8</span>
+    * <span class="hljs-number">16</span>
+    * <span class="hljs-number">32</span>
+* Uint
+    * <span class="hljs-number">8</span>
+    * <span class="hljs-number">16</span>
+    * <span class="hljs-number">32</span>
+* Float
+    * <span class="hljs-number">32</span>
+    * <span class="hljs-number">64</span>
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		<span class="hljs-keyword">var</span> types = {<span class="hljs-string">"Int"</span>: [<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>], <span class="hljs-string">"Uint"</span>: [<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>], <span class="hljs-string">"Float"</span>: [<span class="hljs-number">32</span>,<span class="hljs-number">64</span>]};
+		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> type <span class="hljs-keyword">in</span> types) {
+			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, size; i &lt; types[type].length; i ++) {
+				size = types[type][i];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <h3 id="metaview-read-type-bits-length-">MetaView.read [TYPE] [BITS] (LENGTH)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>For example, <code>metaViewInstance.readUint8(4)</code> would return the next
+4 Uint8 values, updating the cursor to the following data.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				MetaView.prototype[<span class="hljs-string">"read"</span> + type + size] = MetaView.prototype.readData.bind(<span class="hljs-keyword">this</span>, type, size);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h3 id="metaview-peek-type-bits-length-">MetaView.peek [TYPE] [BITS] (LENGTH)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>For example, <code>metaViewInstance.peekUint8(4)</code> would return the next
+4 Uint8 values, but the cursor would still point to the data for later
+reading.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				MetaView.prototype[<span class="hljs-string">"peek"</span> + type + size] = MetaView.prototype.peekData.bind(<span class="hljs-keyword">this</span>, type, size);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <h3 id="metaview-write-type-bits-data-">MetaView.write [TYPE] [BITS] (DATA)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p> For example, <code>metaViewInstance.writeUint8([0, 0, 0, 0])</code> would write 4 null
+ bytes to a newly created ArrayBuffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>				MetaView.prototype[<span class="hljs-string">"write"</span> + type + size] = MetaView.prototype.writeData.bind(<span class="hljs-keyword">this</span>, type, size);
+			}
+		}
+
+		<span class="hljs-keyword">this</span>.farthestWrite = <span class="hljs-number">0</span>;
+	}
+
+	MetaView.LE = <span class="hljs-literal">true</span>;
+	MetaView.BE = <span class="hljs-literal">false</span>;
+
+	MetaView.prototype = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <h3 id="metaview-expandtocontain-size-">MetaView.expandToContain(size)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Used internally, expands internal ArrayBuffer to contain new data, if necessary.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		expandToContain: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dataSize</span>) </span>{
+			<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cursor + dataSize &lt; <span class="hljs-keyword">this</span>.contents.byteLength)
+				<span class="hljs-keyword">return</span>;
+
+			<span class="hljs-keyword">var</span> newLength = <span class="hljs-keyword">this</span>.contents.byteLength;
+
+			<span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.cursor + dataSize &gt; newLength)
+				newLength *= <span class="hljs-number">2</span>;
+
+			<span class="hljs-keyword">this</span>.contents = <span class="hljs-built_in">ArrayBuffer</span>.transfer(<span class="hljs-keyword">this</span>.contents, newLength);
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <h3 id="metaview-finalize-">MetaView.finalize()</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Snips off any excess memory we’ve allocated and returns the internal ArrayBuffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		finalize: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+			<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.contents = <span class="hljs-keyword">this</span>.contents.slice(<span class="hljs-number">0</span>, <span class="hljs-keyword">this</span>.farthestWrite);
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <h3 id="metaview-readdata-type-bits-data-">MetaView.readData(type, bits, data)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Used internally, reads data of an arbitrary size from the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		readData: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">type, bits, length</span>) </span>{
+			length = length || <span class="hljs-number">1</span>;
+
+			<span class="hljs-keyword">var</span> dv = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(<span class="hljs-keyword">this</span>.contents);
+			<span class="hljs-keyword">var</span> result = [];
+			<span class="hljs-keyword">while</span> (length --) {
+				result.push(dv[<span class="hljs-string">"get"</span> + type + bits](<span class="hljs-keyword">this</span>.cursor, <span class="hljs-keyword">this</span>.endianness));
+				<span class="hljs-keyword">this</span>.cursor += bits / <span class="hljs-number">8</span>;
+			}
+
+			<span class="hljs-keyword">return</span> result.length == <span class="hljs-number">1</span> ? result[<span class="hljs-number">0</span>] : result;
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <h3 id="metaview-peekdata-type-bits-data-">MetaView.peekData(type, bits, data)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Used internally, peeks at data of an arbitrary size from the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		peekData: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">type, bits, length</span>) </span>{
+			<span class="hljs-keyword">var</span> data = <span class="hljs-keyword">this</span>.readData(type, bits, length);
+			<span class="hljs-keyword">this</span>.cursor -= (bits / <span class="hljs-number">8</span>) * length;
+			<span class="hljs-keyword">return</span> data;
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <h3 id="metaview-writedata-type-bits-data-">MetaView.writeData(type, bits, data)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Used internally, writes data of an arbitrary size to the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		writeData: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">type, bits, data</span>) </span>{
+			<span class="hljs-keyword">var</span> bytes = bits / <span class="hljs-number">8</span>, dataLength = data.length || <span class="hljs-number">1</span>;
+
+			<span class="hljs-keyword">this</span>.expandToContain(dataLength * bytes);
+
+			<span class="hljs-keyword">var</span> dv = <span class="hljs-keyword">new</span> <span class="hljs-built_in">DataView</span>(<span class="hljs-keyword">this</span>.contents);
+			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; dataLength; i ++) {
+				dv[<span class="hljs-string">"set"</span> + type + bits](<span class="hljs-keyword">this</span>.cursor, data[i] || data, <span class="hljs-keyword">this</span>.endianness);
+				<span class="hljs-keyword">this</span>.cursor += bytes;
+			}
+
+			<span class="hljs-keyword">this</span>.farthestWrite = <span class="hljs-built_in">Math</span>.max(<span class="hljs-keyword">this</span>.cursor, <span class="hljs-keyword">this</span>.farthestWrite);
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <h3 id="metaview-readutf8string-">MetaView.readUTF8String()</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Uses bound functions to read a UTF-8 formatted string from the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		readUTF8String: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+			<span class="hljs-keyword">var</span> encoded = <span class="hljs-keyword">this</span>.readUint8(<span class="hljs-keyword">this</span>.readUint32());
+			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TextDecoder(<span class="hljs-string">"utf-8"</span>).decode(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(encoded));
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <h3 id="metaview-peekutf8string-">MetaView.peekUTF8String()</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>Uses bound functions to peek at a UTF-8 formatted string from the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		peekUTF8String: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+			<span class="hljs-keyword">var</span> c = <span class="hljs-keyword">this</span>.cursor;
+			<span class="hljs-keyword">var</span> encoded = <span class="hljs-keyword">this</span>.readUint8(<span class="hljs-keyword">this</span>.readUint32());
+			<span class="hljs-keyword">this</span>.cursor = c;
+
+			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> TextDecoder(<span class="hljs-string">"utf-8"</span>).decode(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(encoded));
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <h3 id="metaview-writeutf8string-string-">MetaView.writeUTF8String(string)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p>Uses bound functions to write a UTF-8 formatted <code>string</code> to the buffer.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		writeUTF8String: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">string</span>) </span>{
+			<span class="hljs-keyword">var</span> encoded = <span class="hljs-keyword">new</span> TextEncoder(<span class="hljs-string">"utf-8"</span>).encode(string);
+			<span class="hljs-keyword">this</span>.writeUint32(encoded.byteLength);
+			<span class="hljs-keyword">this</span>.writeUint8(encoded);
+		},</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <h3 id="metaview-todatauri-type-">MetaView.toDataURI(type)</h3>
+<hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p>Converts the buffer, as it is, into a Data URI format more useful for the
+end user. <code>type</code> is a standard media type, e.g. “image/png”</p>
+<p>You’ll probably want to call <code>MetaView.finalize()</code> first.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>		toDataURI: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">type</span>) </span>{
+			<span class="hljs-keyword">var</span> bytes = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(<span class="hljs-keyword">this</span>.contents),
+					binary = <span class="hljs-string">''</span>;
+			<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; bytes.byteLength; i ++)
+				binary += <span class="hljs-built_in">String</span>.fromCharCode(bytes[i]);
+			<span class="hljs-keyword">return</span> <span class="hljs-string">"data:"</span> + type + <span class="hljs-string">";base64,"</span>  + btoa(binary);
+		}
+	};
+
+	<span class="hljs-keyword">return</span> MetaView;
+})();</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
