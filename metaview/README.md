@@ -8,8 +8,8 @@ In addition to the following examples, the source code is clean and documented w
 `MetaView.cursor`
 
 This is the cursor, tracking the current position in the `ArrayBuffer`.
-All IO occurs from this point, it is automatically updated by `read` and `write`
-methods. It is *not* read-only, you can move it as needed.
+All IO occurs from this point, it is automatically updated by `read` and `write` methods.
+It is *not* read-only, you can move it as needed.
 
 `MetaView.endianness`
 
@@ -26,9 +26,7 @@ Specifies the desired endianness of the IO methods.
 `MetaView.readFloat32 (length)`
 `MetaView.readFloat64 (length)`
 
-Reads `length` elements of a certain size (8 bits, 16 bits, 32 bits, 64 bits) and
-type (Uint, Int, Float), moving the cursor accordingly. If no length is specified
-it will simply read 1 element.
+Reads `length` elements of a certain size (8 bits, 16 bits, 32 bits, 64 bits) and type (Uint, Int, Float), moving the cursor accordingly. If no length is specified it will simply read 1 element.
 
 Returns data read an `Array`.
 
@@ -41,8 +39,7 @@ Returns data read an `Array`.
 `MetaView.peekFloat32 (length)`
 `MetaView.peekFloat64 (length)`
 
-Reads `length` elements of a certain size and type, but retains the current cursor
-position. If no length is specified it will simply read 1 unit.
+Reads `length` elements of a certain size and type, but retains the current cursor position. If no length is specified it will simply read 1 unit.
 
 Returns data read as an `Array`.
 
@@ -65,8 +62,7 @@ It then returns the `ArrayBuffer`.
 
 `MetaView.toDataURI (type)`
 
-Generates a string containing a data URI, useful for presenting the user with
-a download link.
+Generates a string containing a data URI, useful for presenting the user with a download link.
 
 
 ## Examples
